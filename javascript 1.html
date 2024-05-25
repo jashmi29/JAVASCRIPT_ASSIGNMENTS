@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <label>Enter your name: </label>
+    <br>
+    <input type="type" id="username">
+    <button onclick="greetuser()">Greet user</button>
+     <script>
+        function greetuser()
+        {
+            var username;
+            username= document.getElementById("username").value
+            document.write("Hello " + username)
+        }
+     </script>
+     </body>
+</html>
