@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+    <style>
+      body {
+        text-align: center;
+      }
+      .container {
+          margin: 0 auto;
+          background-color: rgba(160, 235, 135, 0.288);
+          border-radius: 20px;
+          padding: 25px 50px;
+          width: 80vw;
+      }
+      .action {
+        max-width: 800px;
+        padding: 40px 0;
+        margin: 0 auto;
+        background-color: rgb(226, 169, 241);
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-evenly;
+        border-radius: 50px;
+      }
+      .options {
+        flex: 1 1 30%;
+        border-radius: 50%;
+        border-width: 4px;
+        border-style: solid;
+        border-color: rgba(0, 0, 0, 0.7);
+        padding: 10px;
+        animation-name: anim-fade;
+        animation-duration: 1s;
+        animation-fill-mode: forwards;
+        width: 100%;
+        max-width: 120px;
+      }
+      .display-moves {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        margin-top: 20px;
+      }
+      .move {
+        border-radius: 50%;
+        border-width: 8px;
+        border-style: solid;
+        border-color: rgba(0, 0, 0, 0.7);
+        width: 150px; /* Adjust the size as needed */
+        height: 150px; /* Adjust the size as needed */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+      .move img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .separator {
+        font-size: 5em;
+        border: radius 80px;
+      }
+      .message {
+        font-size: 2em;
+        margin-top: 20px;
+        font-weight: bold;
+        color: #0d0b0e;
+      }
+    </style>
+</head>
+<body>
+    <div class="container">
+      <h1>The Rock Paper Scissors Game</h1>
+      <h2>Win five round over Jashmi</h2>
+      <h2>
+        Player <span id="p-score">0</span> - <span id="c-score">0</span> Computer
+      </h2>
+      <div id="message" class="message"></div>
+      <div class="display-moves">
+        <div class="move">
+          <img id="p-move" src="images js/paper.png" alt="Player move">
+        </div>
+        <div class="separator">VS</div>
+        <div class="move">
+          <img id="c-move" src="images js/scissors.png" alt="Computer move">
+        </div>
+      </div>
+      <h2>Click on the image below to select your move:</h2>
+      <div class="action">
+        <input class="options" type="image" src="images js/rock.png" value="Rock" />
+        <input class="options" type="image" src="images js/paper.png" value="Paper" />
+        <input class="options" type="image" src="images js/scissors.png" value="Scissors" />
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+      const options = document.querySelectorAll(".options");
+      let pScore = 0;
+      let cScore = 0;
+  
+      options.forEach((option) => {
+        option.addEventListener("click", function () {
+          const pInput = this.value;
+  
+          const cOptions = ["Rock", "Paper", "Scissors"];
+          const cInput = cOptions[Math.floor(Math.random() * 3)];
+          
+          updateMoves(pInput, cInput);
+          compareInputs(pInput, cInput);
+          updateScore();
+          if (checkWinner()) {
+            pScore = cScore = 0;
+            updateScore();
+          }
+        });
+      });
+  
+      function updateMoves(pInput, cInput) {
+        document.getElementById("p-move").src = `images js/${pInput.toLowerCase()}.png`;
+        document.getElementById("c-move").src = `images js/${cInput.toLowerCase()}.png`;
+      }
+  
+      function compareInputs(pInput, cInput) {
+        const currentMatch = `${pInput} vs ${cInput}`;
+        if (pInput === cInput) {
+          displayMessage(`${currentMatch} is a Tie`);
+          return;
+        }
+  
+        if (pInput === "Rock") {
+          if (cInput === "Scissors") {
+            displayMessage(`${currentMatch} = You Win`);
+            pScore++;
+          } else {
+            displayMessage(`${currentMatch} = Computer Wins`);
+            cScore++;
+          }
+        } else if (pInput === "Paper") {
+          if (cInput === "Rock") {
+            displayMessage(`${currentMatch} = You Win`);
+            pScore++;
+          } else {
+            displayMessage(`${currentMatch} = Computer Wins`);
+            cScore++;
+          }
+        } else {
+          if (cInput === "Paper") {
+            displayMessage(`${currentMatch} = You Win`);
+            pScore++;
+          } else {
+            displayMessage(`${currentMatch} = Computer Wins`);
+            cScore++;
+          }
+        }
+      }
+  
+      function updateScore() {
+        document.getElementById("p-score").textContent = pScore;
+        document.getElementById("c-score").textContent = cScore;
+      }
+  
+      function checkWinner() {
+        if (pScore === 5 || cScore === 5) {
+          const winner = pScore === 5
+            ? "You win the game! Congratulations!"
+            : "Computer wins the game! Try again next time!";
+            
+          displayMessage(winner);
+          if (pScore === 5) {
+            launchConfetti();
+          }
+          return true;
+        }
+        return false;
+      }
+  
+      function displayMessage(message) {
+        document.getElementById("message").textContent = message;
+      }
+  
+      function launchConfetti() {
+        confetti({
+          particleCount: 200,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      }
+    </script>
+</body>
+</html>
