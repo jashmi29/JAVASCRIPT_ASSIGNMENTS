@@ -14,6 +14,7 @@
           border-radius: 20px;
           padding: 25px 50px;
           width: 80vw;
+          border: 8px solid black; /* Added black border */
       }
       .action {
         max-width: 800px;
@@ -42,8 +43,13 @@
       .display-moves {
         display: flex;
         align-items: center;
-        justify-content: space-evenly;
+        justify-content:space-evenly;
         margin-top: 20px;
+      }
+      .player-move, .computer-move {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
       .move {
         border-radius: 50%;
@@ -64,7 +70,7 @@
       }
       .separator {
         font-size: 5em;
-        border: radius 80px;
+        border-radius: 80px;
       }
       .message {
         font-size: 2em;
@@ -72,23 +78,46 @@
         font-weight: bold;
         color: #0d0b0e;
       }
+      .player-label, .computer-label {
+        font-size: 4em;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+      }
+      .player-label img, .computer-label img {
+        margin-left: 10px;
+        width: 150px; /* Increased size */
+        height: 150px; /* Increased size */
+      }
     </style>
 </head>
 <body>
     <div class="container">
       <h1>The Rock Paper Scissors Game</h1>
-      <h2>Win five round over Jashmi</h2>
+      <h2>Win over Jashmi</h2>
       <h2>
         Player <span id="p-score">0</span> - <span id="c-score">0</span> Computer
       </h2>
       <div id="message" class="message"></div>
       <div class="display-moves">
-        <div class="move">
-          <img id="p-move" src="images js/paper.png" alt="Player move">
+        <div class="player-move">
+          <div class="player-label">
+            Player
+            <img src="https://cdn.dribbble.com/users/572419/screenshots/3628654/dribbble.gif" alt="Player emoji"> <!-- Add your player emoji or image here -->
+          </div>
+          <div class="move">
+            <img id="p-move" src="images js/paper.png" alt="Player move">
+          </div>
         </div>
         <div class="separator">VS</div>
-        <div class="move">
-          <img id="c-move" src="images js/scissors.png" alt="Computer move">
+        <div class="computer-move">
+          <div class="computer-label">
+            Computer
+            <img src="https://tse3.mm.bing.net/th?id=OIP.LrnxjzKo3ouJyb62k64MywAAAA&pid=Api&P=0&h=180" alt="Computer emoji"> <!-- Add your computer emoji or image here -->
+          </div>
+          <div class="move">
+            <img id="c-move" src="images js/scissors.png" alt="Computer move">
+          </div>
         </div>
       </div>
       <h2>Click on the image below to select your move:</h2>
@@ -137,6 +166,7 @@
           if (cInput === "Scissors") {
             displayMessage(`${currentMatch} = You Win`);
             pScore++;
+            launchConfetti(); // Launch confetti on player win
           } else {
             displayMessage(`${currentMatch} = Computer Wins`);
             cScore++;
@@ -145,6 +175,7 @@
           if (cInput === "Rock") {
             displayMessage(`${currentMatch} = You Win`);
             pScore++;
+            launchConfetti(); // Launch confetti on player win
           } else {
             displayMessage(`${currentMatch} = Computer Wins`);
             cScore++;
@@ -153,6 +184,7 @@
           if (cInput === "Paper") {
             displayMessage(`${currentMatch} = You Win`);
             pScore++;
+            launchConfetti(); // Launch confetti on player win
           } else {
             displayMessage(`${currentMatch} = Computer Wins`);
             cScore++;
@@ -172,9 +204,6 @@
             : "Computer wins the game! Try again next time!";
             
           displayMessage(winner);
-          if (pScore === 5) {
-            launchConfetti();
-          }
           return true;
         }
         return false;
@@ -187,7 +216,7 @@
       function launchConfetti() {
         confetti({
           particleCount: 200,
-          spread: 70,
+          spread: 200,
           origin: { y: 0.6 }
         });
       }
